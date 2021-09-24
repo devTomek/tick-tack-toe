@@ -11,7 +11,7 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx", ".css", ".scss"],
     fallback: {
-      "querystring": false
+      querystring: false,
     },
   },
   module: {
@@ -35,7 +35,6 @@ module.exports = {
     ],
   },
   devServer: {
-    open: true,
     compress: true,
     port: 3000,
   },
