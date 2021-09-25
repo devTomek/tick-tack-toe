@@ -1,12 +1,13 @@
-import React from "react"
+import React from "react";
+import Board from "./board/Board";
+import Page from "./presentational/Page";
 
-const App = () => {
-  console.log("its working")
+function App() {
   return (
-    <div>
-      App
-    </div>
-  )
+    <Page>
+      <Board />
+    </Page>
+  );
 }
 
-export default App
+export default App;
