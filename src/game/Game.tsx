@@ -64,26 +64,33 @@ function Game() {
   const [cell7, setCell7] = useState<Mark>("");
   const [cell8, setCell8] = useState<Mark>("");
   const [cell9, setCell9] = useState<Mark>("");
+  const [mark, setMark] = useState<Mark>("O");
 
-  // TODO rather choose player, not toggle sign
-  const getMark = (mark: Mark) => (mark === "X" ? "O" : "X");
+  const getMark = () => (mark === "X" ? "O" : "X");
+
+  const handleMark = (prevMark: Mark) => {
+    if (prevMark) return prevMark;
+    const mark = getMark();
+    setMark(mark);
+    return mark;
+  };
 
   return (
     <Container className="h-100 d-flex flex-column justify-content-center">
       <Row>
-        <Cell1 onClick={() => setCell1(getMark)}>{cell1}</Cell1>
-        <Cell2 onClick={() => setCell2(getMark)}>{cell2}</Cell2>
-        <Cell3 onClick={() => setCell3(getMark)}>{cell3}</Cell3>
+        <Cell1 onClick={() => setCell1(handleMark)}>{cell1}</Cell1>
+        <Cell2 onClick={() => setCell2(handleMark)}>{cell2}</Cell2>
+        <Cell3 onClick={() => setCell3(handleMark)}>{cell3}</Cell3>
       </Row>
       <Row>
-        <Cell4 onClick={() => setCell4(getMark)}>{cell4}</Cell4>
-        <Cell5 onClick={() => setCell5(getMark)}>{cell5}</Cell5>
-        <Cell6 onClick={() => setCell6(getMark)}>{cell6}</Cell6>
+        <Cell4 onClick={() => setCell4(handleMark)}>{cell4}</Cell4>
+        <Cell5 onClick={() => setCell5(handleMark)}>{cell5}</Cell5>
+        <Cell6 onClick={() => setCell6(handleMark)}>{cell6}</Cell6>
       </Row>
       <Row>
-        <Cell7 onClick={() => setCell7(getMark)}>{cell7}</Cell7>
-        <Cell8 onClick={() => setCell8(getMark)}>{cell8}</Cell8>
-        <Cell9 onClick={() => setCell9(getMark)}>{cell9}</Cell9>
+        <Cell7 onClick={() => setCell7(handleMark)}>{cell7}</Cell7>
+        <Cell8 onClick={() => setCell8(handleMark)}>{cell8}</Cell8>
+        <Cell9 onClick={() => setCell9(handleMark)}>{cell9}</Cell9>
       </Row>
     </Container>
   );
