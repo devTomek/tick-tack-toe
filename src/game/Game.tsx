@@ -58,7 +58,7 @@ const MarkPicker = styled(Row)`
   font-size: 4rem;
 `;
 
-const MarkOButton = styled(Button)`
+const MarkButton = styled(Button)`
   font-size: inherit;
 `;
 
@@ -137,47 +137,120 @@ function Game() {
     }
   }, [winCondition]);
 
+  const toggleMark = () => {
+    setMark((prevMark) => (prevMark === "X" ? "O" : "X"));
+  };
+
   return (
     <Container className="h-100 d-flex flex-column justify-content-center">
       <MarkPicker className="text-center p-4">
-        <p>Choose Mark</p>
-        <Row>
-          <Col>
-            <MarkOButton
-              variant="light"
-              size="lg"
-              className="w-100"
-              onClick={() => setMark("O")}
-            >
-              O
-            </MarkOButton>
-          </Col>
-          <Col>
-            <MarkOButton
-              variant="light"
-              size="lg"
-              className="w-100"
-              onClick={() => setMark("X")}
-            >
-              X
-            </MarkOButton>
-          </Col>
-        </Row>
+        {mark ? (
+          <p className="fixed-top p-4">{mark}'s turn</p>
+        ) : (
+          <p>Choose Mark</p>
+        )}
+        {!mark && (
+          <Row>
+            <Col>
+              <MarkButton
+                variant="light"
+                size="lg"
+                className="w-100"
+                onClick={() => setMark("O")}
+              >
+                O
+              </MarkButton>
+            </Col>
+            <Col>
+              <MarkButton
+                variant="light"
+                size="lg"
+                className="w-100"
+                onClick={() => setMark("X")}
+              >
+                X
+              </MarkButton>
+            </Col>
+          </Row>
+        )}
       </MarkPicker>
       <Row>
-        <Cell1 onClick={() => setCell1(mark)}>{cell1}</Cell1>
-        <Cell2 onClick={() => setCell2(mark)}>{cell2}</Cell2>
-        <Cell3 onClick={() => setCell3(mark)}>{cell3}</Cell3>
+        <Cell1
+          onClick={() => {
+            setCell1(mark);
+            toggleMark();
+          }}
+        >
+          {cell1}
+        </Cell1>
+        <Cell2
+          onClick={() => {
+            setCell2(mark);
+            toggleMark();
+          }}
+        >
+          {cell2}
+        </Cell2>
+        <Cell3
+          onClick={() => {
+            setCell3(mark);
+            toggleMark();
+          }}
+        >
+          {cell3}
+        </Cell3>
       </Row>
       <Row>
-        <Cell4 onClick={() => setCell4(mark)}>{cell4}</Cell4>
-        <Cell5 onClick={() => setCell5(mark)}>{cell5}</Cell5>
-        <Cell6 onClick={() => setCell6(mark)}>{cell6}</Cell6>
+        <Cell4
+          onClick={() => {
+            setCell4(mark);
+            toggleMark();
+          }}
+        >
+          {cell4}
+        </Cell4>
+        <Cell5
+          onClick={() => {
+            setCell5(mark);
+            toggleMark();
+          }}
+        >
+          {cell5}
+        </Cell5>
+        <Cell6
+          onClick={() => {
+            setCell6(mark);
+            toggleMark();
+          }}
+        >
+          {cell6}
+        </Cell6>
       </Row>
       <Row>
-        <Cell7 onClick={() => setCell7(mark)}>{cell7}</Cell7>
-        <Cell8 onClick={() => setCell8(mark)}>{cell8}</Cell8>
-        <Cell9 onClick={() => setCell9(mark)}>{cell9}</Cell9>
+        <Cell7
+          onClick={() => {
+            setCell7(mark);
+            toggleMark();
+          }}
+        >
+          {cell7}
+        </Cell7>
+        <Cell8
+          onClick={() => {
+            setCell8(mark);
+            toggleMark();
+          }}
+        >
+          {cell8}
+        </Cell8>
+        <Cell9
+          onClick={() => {
+            setCell9(mark);
+            toggleMark();
+          }}
+        >
+          {cell9}
+        </Cell9>
       </Row>
     </Container>
   );
