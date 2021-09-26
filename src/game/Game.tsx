@@ -138,6 +138,7 @@ function Game() {
   }, [winCondition]);
 
   const toggleMark = () => {
+    if (!mark) return;
     setMark((prevMark) => (prevMark === "X" ? "O" : "X"));
   };
 
