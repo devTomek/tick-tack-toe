@@ -131,15 +131,19 @@ function Game() {
     (cell3 === "X" && cell5 === "X" && cell7 === "X") ||
     (cell3 === "O" && cell5 === "O" && cell7 === "O");
 
+  const getMark = (mark: Mark) => (mark === "X" ? "O" : "X");
+
   useEffect(() => {
     if (winCondition) {
-      window.alert(JSON.stringify(mark));
+      // get previous mark because winCondition is checked after toggleMark
+      const winner = getMark(mark);
+      alert(winner);
     }
-  }, [winCondition]);
+  }, [mark]);
 
   const toggleMark = () => {
     if (!mark) return;
-    setMark((prevMark) => (prevMark === "X" ? "O" : "X"));
+    setMark(getMark);
   };
 
   return (
