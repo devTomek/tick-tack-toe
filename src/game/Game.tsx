@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
 
 type Mark = "X" | "O" | "";
@@ -54,6 +54,14 @@ const Cell9 = styled(Cell)`
   border-top: 1px solid #000000;
 `;
 
+const MarkPicker = styled(Row)`
+  font-size: 4rem;
+`;
+
+const MarkOButton = styled(Button)`
+  font-size: inherit;
+`;
+
 function Game() {
   const [cell1, setCell1] = useState<Mark>("");
   const [cell2, setCell2] = useState<Mark>("");
@@ -64,7 +72,7 @@ function Game() {
   const [cell7, setCell7] = useState<Mark>("");
   const [cell8, setCell8] = useState<Mark>("");
   const [cell9, setCell9] = useState<Mark>("");
-  const [mark, setMark] = useState<Mark>("O");
+  const [mark, setMark] = useState<Mark>("");
   const winCondition =
     /**
      * XXX OOO
@@ -129,31 +137,47 @@ function Game() {
     }
   }, [winCondition]);
 
-  const getMark = () => (mark === "X" ? "O" : "X");
-
-  const handleMark = (prevMark: Mark) => {
-    if (prevMark) return prevMark;
-    const mark = getMark();
-    setMark(mark);
-    return mark;
-  };
-
   return (
     <Container className="h-100 d-flex flex-column justify-content-center">
+      <MarkPicker className="text-center p-4">
+        <p>Choose Mark</p>
+        <Row>
+          <Col>
+            <MarkOButton
+              variant="light"
+              size="lg"
+              className="w-100"
+              onClick={() => setMark("O")}
+            >
+              O
+            </MarkOButton>
+          </Col>
+          <Col>
+            <MarkOButton
+              variant="light"
+              size="lg"
+              className="w-100"
+              onClick={() => setMark("X")}
+            >
+              X
+            </MarkOButton>
+          </Col>
+        </Row>
+      </MarkPicker>
       <Row>
-        <Cell1 onClick={() => setCell1(handleMark)}>{cell1}</Cell1>
-        <Cell2 onClick={() => setCell2(handleMark)}>{cell2}</Cell2>
-        <Cell3 onClick={() => setCell3(handleMark)}>{cell3}</Cell3>
+        <Cell1 onClick={() => setCell1(mark)}>{cell1}</Cell1>
+        <Cell2 onClick={() => setCell2(mark)}>{cell2}</Cell2>
+        <Cell3 onClick={() => setCell3(mark)}>{cell3}</Cell3>
       </Row>
       <Row>
-        <Cell4 onClick={() => setCell4(handleMark)}>{cell4}</Cell4>
-        <Cell5 onClick={() => setCell5(handleMark)}>{cell5}</Cell5>
-        <Cell6 onClick={() => setCell6(handleMark)}>{cell6}</Cell6>
+        <Cell4 onClick={() => setCell4(mark)}>{cell4}</Cell4>
+        <Cell5 onClick={() => setCell5(mark)}>{cell5}</Cell5>
+        <Cell6 onClick={() => setCell6(mark)}>{cell6}</Cell6>
       </Row>
       <Row>
-        <Cell7 onClick={() => setCell7(handleMark)}>{cell7}</Cell7>
-        <Cell8 onClick={() => setCell8(handleMark)}>{cell8}</Cell8>
-        <Cell9 onClick={() => setCell9(handleMark)}>{cell9}</Cell9>
+        <Cell7 onClick={() => setCell7(mark)}>{cell7}</Cell7>
+        <Cell8 onClick={() => setCell8(mark)}>{cell8}</Cell8>
+        <Cell9 onClick={() => setCell9(mark)}>{cell9}</Cell9>
       </Row>
     </Container>
   );
