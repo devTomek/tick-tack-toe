@@ -178,6 +178,7 @@ function Game() {
       <Row>
         <Cell1
           onClick={() => {
+            if (cell1) return;
             setCell1(mark);
             toggleMark();
           }}
@@ -186,6 +187,7 @@ function Game() {
         </Cell1>
         <Cell2
           onClick={() => {
+            if (cell2) return;
             setCell2(mark);
             toggleMark();
           }}
@@ -194,6 +196,7 @@ function Game() {
         </Cell2>
         <Cell3
           onClick={() => {
+            if (cell3) return;
             setCell3(mark);
             toggleMark();
           }}
@@ -204,6 +207,7 @@ function Game() {
       <Row>
         <Cell4
           onClick={() => {
+            if (cell4) return;
             setCell4(mark);
             toggleMark();
           }}
@@ -212,6 +216,7 @@ function Game() {
         </Cell4>
         <Cell5
           onClick={() => {
+            if (cell5) return;
             setCell5(mark);
             toggleMark();
           }}
@@ -220,6 +225,7 @@ function Game() {
         </Cell5>
         <Cell6
           onClick={() => {
+            if (cell6) return;
             setCell6(mark);
             toggleMark();
           }}
@@ -230,6 +236,7 @@ function Game() {
       <Row>
         <Cell7
           onClick={() => {
+            if (cell7) return;
             setCell7(mark);
             toggleMark();
           }}
@@ -238,6 +245,7 @@ function Game() {
         </Cell7>
         <Cell8
           onClick={() => {
+            if (cell8) return;
             setCell8(mark);
             toggleMark();
           }}
@@ -246,6 +254,7 @@ function Game() {
         </Cell8>
         <Cell9
           onClick={() => {
+            if (cell9) return;
             setCell9(mark);
             toggleMark();
           }}
