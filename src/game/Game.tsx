@@ -54,7 +54,7 @@ const Cell9 = styled(Cell)`
   border-top: 1px solid #000000;
 `;
 
-function Board() {
+function Game() {
   const [cell1, setCell1] = useState<Mark>("");
   const [cell2, setCell2] = useState<Mark>("");
   const [cell3, setCell3] = useState<Mark>("");
@@ -89,4 +89,4 @@ function Board() {
   );
 }
 
-export default Board;
+export default Game;
