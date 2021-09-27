@@ -82,7 +82,7 @@ const MarkPicker = styled(Row)`
   font-size: 4rem;
 `;
 
-const MarkButton = styled(Button)`
+const GameButton = styled(Button)`
   font-size: inherit;
 `;
 
@@ -149,11 +149,17 @@ function Game() {
 
   const toggleMark = (mark: Mark) => (mark === "X" ? "O" : "X");
 
+  const reset = () => {
+    setState(initialState);
+    setMark("");
+  };
+
   useEffect(() => {
     if (winCondition) {
       // get previous mark because winCondition is checked after toggleMark
       const winner = toggleMark(mark);
       alert(winner);
+      reset();
     }
   }, [mark]);
 
@@ -181,27 +187,38 @@ function Game() {
         ) : (
           <p>Choose Mark</p>
         )}
-        {!mark && (
+        {mark ? (
+          <Row className="d-flex justify-content-center m-4">
+            <GameButton
+              className="w-50"
+              variant="light"
+              size="lg"
+              onClick={reset}
+            >
+              Reset
+            </GameButton>
+          </Row>
+        ) : (
           <Row>
             <Col>
-              <MarkButton
+              <GameButton
                 variant="light"
                 size="lg"
                 className="w-100"
                 onClick={() => setMark("O")}
               >
                 O
-              </MarkButton>
+              </GameButton>
             </Col>
             <Col>
-              <MarkButton
+              <GameButton
                 variant="light"
                 size="lg"
                 className="w-100"
                 onClick={() => setMark("X")}
               >
                 X
-              </MarkButton>
+              </GameButton>
             </Col>
           </Row>
         )}
