@@ -1,4 +1,11 @@
-import React, { useEffect, useState, MouseEvent } from "react";
+import React, {
+  useEffect,
+  useState,
+  MouseEvent,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
 
@@ -15,18 +22,6 @@ interface State {
   cell8: Mark;
   cell9: Mark;
 }
-
-const initialState: State = {
-  cell1: "",
-  cell2: "",
-  cell3: "",
-  cell4: "",
-  cell5: "",
-  cell6: "",
-  cell7: "",
-  cell8: "",
-  cell9: "",
-};
 
 const Cell = styled(Col)`
   min-height: 200px;
@@ -87,70 +82,84 @@ const GameButton = styled(Button)`
 `;
 
 function Game() {
-  const [state, setState] = useState<State>(initialState);
+  const initialState = useRef<State>({
+    cell1: "",
+    cell2: "",
+    cell3: "",
+    cell4: "",
+    cell5: "",
+    cell6: "",
+    cell7: "",
+    cell8: "",
+    cell9: "",
+  });
+  const [state, setState] = useState<State>(initialState.current);
   const [mark, setMark] = useState<Mark>("");
-  const winCondition =
-    /**
-     * XXX OOO
-     * ... ...
-     * ... ...
-     */
-    (state.cell1 === "X" && state.cell2 === "X" && state.cell3 === "X") ||
-    (state.cell1 === "O" && state.cell2 === "O" && state.cell3 === "O") ||
-    /**
-     * ... ...
-     * XXX OOO
-     * ... ...
-     */
-    (state.cell4 === "X" && state.cell5 === "X" && state.cell6 === "X") ||
-    (state.cell4 === "O" && state.cell5 === "O" && state.cell6 === "O") ||
-    /**
-     * ... ...
-     * ... ...
-     * XXX OOO
-     */
-    (state.cell7 === "X" && state.cell8 === "X" && state.cell9 === "X") ||
-    (state.cell7 === "O" && state.cell8 === "O" && state.cell9 === "O") ||
-    /**
-     * X.. O..
-     * X.. O..
-     * X.. O..
-     */
-    (state.cell1 === "X" && state.cell4 === "X" && state.cell7 === "X") ||
-    (state.cell1 === "O" && state.cell4 === "O" && state.cell7 === "O") ||
-    /**
-     * .X. .O.
-     * .X. .O.
-     * .X. .O.
-     */
-    (state.cell2 === "X" && state.cell5 === "X" && state.cell8 === "X") ||
-    (state.cell2 === "O" && state.cell5 === "O" && state.cell8 === "O") ||
-    /**
-     * ..X ..O
-     * ..X ..O
-     * ..X ..O
-     */
-    (state.cell3 === "X" && state.cell6 === "X" && state.cell9 === "X") ||
-    (state.cell3 === "O" && state.cell6 === "O" && state.cell9 === "O") ||
-    /**
-     * X.. O..
-     * .X. .O.
-     * ..X ..O
-     */
-    (state.cell1 === "X" && state.cell5 === "X" && state.cell9 === "X") ||
-    (state.cell1 === "O" && state.cell5 === "O" && state.cell9 === "O") ||
-    /**
-     * ..X ..O
-     * .X. .O.
-     * X.. O..
-     */
-    (state.cell3 === "X" && state.cell5 === "X" && state.cell7 === "X") ||
-    (state.cell3 === "O" && state.cell5 === "O" && state.cell7 === "O");
+  const winCondition = useMemo(
+    () =>
+      /**
+       * XXX OOO
+       * ... ...
+       * ... ...
+       */
+      (state.cell1 === "X" && state.cell2 === "X" && state.cell3 === "X") ||
+      (state.cell1 === "O" && state.cell2 === "O" && state.cell3 === "O") ||
+      /**
+       * ... ...
+       * XXX OOO
+       * ... ...
+       */
+      (state.cell4 === "X" && state.cell5 === "X" && state.cell6 === "X") ||
+      (state.cell4 === "O" && state.cell5 === "O" && state.cell6 === "O") ||
+      /**
+       * ... ...
+       * ... ...
+       * XXX OOO
+       */
+      (state.cell7 === "X" && state.cell8 === "X" && state.cell9 === "X") ||
+      (state.cell7 === "O" && state.cell8 === "O" && state.cell9 === "O") ||
+      /**
+       * X.. O..
+       * X.. O..
+       * X.. O..
+       */
+      (state.cell1 === "X" && state.cell4 === "X" && state.cell7 === "X") ||
+      (state.cell1 === "O" && state.cell4 === "O" && state.cell7 === "O") ||
+      /**
+       * .X. .O.
+       * .X. .O.
+       * .X. .O.
+       */
+      (state.cell2 === "X" && state.cell5 === "X" && state.cell8 === "X") ||
+      (state.cell2 === "O" && state.cell5 === "O" && state.cell8 === "O") ||
+      /**
+       * ..X ..O
+       * ..X ..O
+       * ..X ..O
+       */
+      (state.cell3 === "X" && state.cell6 === "X" && state.cell9 === "X") ||
+      (state.cell3 === "O" && state.cell6 === "O" && state.cell9 === "O") ||
+      /**
+       * X.. O..
+       * .X. .O.
+       * ..X ..O
+       */
+      (state.cell1 === "X" && state.cell5 === "X" && state.cell9 === "X") ||
+      (state.cell1 === "O" && state.cell5 === "O" && state.cell9 === "O") ||
+      /**
+       * ..X ..O
+       * .X. .O.
+       * X.. O..
+       */
+      (state.cell3 === "X" && state.cell5 === "X" && state.cell7 === "X") ||
+      (state.cell3 === "O" && state.cell5 === "O" && state.cell7 === "O"),
+    [state]
+  );
 
   const toggleMark = (mark: Mark) => (mark === "X" ? "O" : "X");
 
   const reset = () => {
-    setState(initialState);
+    setState(initialState.current);
     setMark("");
   };
 
