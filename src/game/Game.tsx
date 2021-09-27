@@ -1,8 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, MouseEvent } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import styled from "styled-components";
 
 type Mark = "X" | "O" | "";
+
+interface State {
+  cell1: Mark;
+  cell2: Mark;
+  cell3: Mark;
+  cell4: Mark;
+  cell5: Mark;
+  cell6: Mark;
+  cell7: Mark;
+  cell8: Mark;
+  cell9: Mark;
+}
+
+const initialState: State = {
+  cell1: "",
+  cell2: "",
+  cell3: "",
+  cell4: "",
+  cell5: "",
+  cell6: "",
+  cell7: "",
+  cell8: "",
+  cell9: "",
+};
 
 const Cell = styled(Col)`
   min-height: 200px;
@@ -63,15 +87,7 @@ const MarkButton = styled(Button)`
 `;
 
 function Game() {
-  const [cell1, setCell1] = useState<Mark>("");
-  const [cell2, setCell2] = useState<Mark>("");
-  const [cell3, setCell3] = useState<Mark>("");
-  const [cell4, setCell4] = useState<Mark>("");
-  const [cell5, setCell5] = useState<Mark>("");
-  const [cell6, setCell6] = useState<Mark>("");
-  const [cell7, setCell7] = useState<Mark>("");
-  const [cell8, setCell8] = useState<Mark>("");
-  const [cell9, setCell9] = useState<Mark>("");
+  const [state, setState] = useState<State>(initialState);
   const [mark, setMark] = useState<Mark>("");
   const winCondition =
     /**
@@ -79,71 +95,82 @@ function Game() {
      * ... ...
      * ... ...
      */
-    (cell1 === "X" && cell2 === "X" && cell3 === "X") ||
-    (cell1 === "O" && cell2 === "O" && cell3 === "O") ||
+    (state.cell1 === "X" && state.cell2 === "X" && state.cell3 === "X") ||
+    (state.cell1 === "O" && state.cell2 === "O" && state.cell3 === "O") ||
     /**
      * ... ...
      * XXX OOO
      * ... ...
      */
-    (cell4 === "X" && cell5 === "X" && cell6 === "X") ||
-    (cell4 === "O" && cell5 === "O" && cell6 === "O") ||
+    (state.cell4 === "X" && state.cell5 === "X" && state.cell6 === "X") ||
+    (state.cell4 === "O" && state.cell5 === "O" && state.cell6 === "O") ||
     /**
      * ... ...
      * ... ...
      * XXX OOO
      */
-    (cell7 === "X" && cell8 === "X" && cell9 === "X") ||
-    (cell7 === "O" && cell8 === "O" && cell9 === "O") ||
+    (state.cell7 === "X" && state.cell8 === "X" && state.cell9 === "X") ||
+    (state.cell7 === "O" && state.cell8 === "O" && state.cell9 === "O") ||
     /**
      * X.. O..
      * X.. O..
      * X.. O..
      */
-    (cell1 === "X" && cell4 === "X" && cell7 === "X") ||
-    (cell1 === "O" && cell4 === "O" && cell7 === "O") ||
+    (state.cell1 === "X" && state.cell4 === "X" && state.cell7 === "X") ||
+    (state.cell1 === "O" && state.cell4 === "O" && state.cell7 === "O") ||
     /**
      * .X. .O.
      * .X. .O.
      * .X. .O.
      */
-    (cell2 === "X" && cell5 === "X" && cell8 === "X") ||
-    (cell2 === "O" && cell5 === "O" && cell8 === "O") ||
+    (state.cell2 === "X" && state.cell5 === "X" && state.cell8 === "X") ||
+    (state.cell2 === "O" && state.cell5 === "O" && state.cell8 === "O") ||
     /**
      * ..X ..O
      * ..X ..O
      * ..X ..O
      */
-    (cell3 === "X" && cell6 === "X" && cell9 === "X") ||
-    (cell3 === "O" && cell6 === "O" && cell9 === "O") ||
+    (state.cell3 === "X" && state.cell6 === "X" && state.cell9 === "X") ||
+    (state.cell3 === "O" && state.cell6 === "O" && state.cell9 === "O") ||
     /**
      * X.. O..
      * .X. .O.
      * ..X ..O
      */
-    (cell1 === "X" && cell5 === "X" && cell9 === "X") ||
-    (cell1 === "O" && cell5 === "O" && cell9 === "O") ||
+    (state.cell1 === "X" && state.cell5 === "X" && state.cell9 === "X") ||
+    (state.cell1 === "O" && state.cell5 === "O" && state.cell9 === "O") ||
     /**
      * ..X ..O
      * .X. .O.
      * X.. O..
      */
-    (cell3 === "X" && cell5 === "X" && cell7 === "X") ||
-    (cell3 === "O" && cell5 === "O" && cell7 === "O");
+    (state.cell3 === "X" && state.cell5 === "X" && state.cell7 === "X") ||
+    (state.cell3 === "O" && state.cell5 === "O" && state.cell7 === "O");
 
-  const getMark = (mark: Mark) => (mark === "X" ? "O" : "X");
+  const toggleMark = (mark: Mark) => (mark === "X" ? "O" : "X");
 
   useEffect(() => {
     if (winCondition) {
       // get previous mark because winCondition is checked after toggleMark
-      const winner = getMark(mark);
+      const winner = toggleMark(mark);
       alert(winner);
     }
   }, [mark]);
 
-  const toggleMark = () => {
-    if (!mark) return;
-    setMark(getMark);
+  const isCell = (id: string) => id.includes("cell");
+
+  const handleBoardClick = (e: MouseEvent<HTMLDivElement>) => {
+    const id = (e.target as HTMLDivElement).id;
+    const value = (e.target as HTMLDivElement).textContent;
+    if (!id || !mark || value) return;
+
+    if (isCell(id)) {
+      setState((prevState) => ({
+        ...prevState,
+        [id]: mark,
+      }));
+      setMark(toggleMark);
+    }
   };
 
   return (
@@ -179,92 +206,22 @@ function Game() {
           </Row>
         )}
       </MarkPicker>
-      <Row>
-        <Cell1
-          onClick={() => {
-            if (cell1) return;
-            setCell1(mark);
-            toggleMark();
-          }}
-        >
-          {cell1}
-        </Cell1>
-        <Cell2
-          onClick={() => {
-            if (cell2) return;
-            setCell2(mark);
-            toggleMark();
-          }}
-        >
-          {cell2}
-        </Cell2>
-        <Cell3
-          onClick={() => {
-            if (cell3) return;
-            setCell3(mark);
-            toggleMark();
-          }}
-        >
-          {cell3}
-        </Cell3>
-      </Row>
-      <Row>
-        <Cell4
-          onClick={() => {
-            if (cell4) return;
-            setCell4(mark);
-            toggleMark();
-          }}
-        >
-          {cell4}
-        </Cell4>
-        <Cell5
-          onClick={() => {
-            if (cell5) return;
-            setCell5(mark);
-            toggleMark();
-          }}
-        >
-          {cell5}
-        </Cell5>
-        <Cell6
-          onClick={() => {
-            if (cell6) return;
-            setCell6(mark);
-            toggleMark();
-          }}
-        >
-          {cell6}
-        </Cell6>
-      </Row>
-      <Row>
-        <Cell7
-          onClick={() => {
-            if (cell7) return;
-            setCell7(mark);
-            toggleMark();
-          }}
-        >
-          {cell7}
-        </Cell7>
-        <Cell8
-          onClick={() => {
-            if (cell8) return;
-            setCell8(mark);
-            toggleMark();
-          }}
-        >
-          {cell8}
-        </Cell8>
-        <Cell9
-          onClick={() => {
-            if (cell9) return;
-            setCell9(mark);
-            toggleMark();
-          }}
-        >
-          {cell9}
-        </Cell9>
+      <Row onClick={handleBoardClick}>
+        <Row>
+          <Cell1 id="cell1">{state.cell1}</Cell1>
+          <Cell2 id="cell2">{state.cell2}</Cell2>
+          <Cell3 id="cell3">{state.cell3}</Cell3>
+        </Row>
+        <Row>
+          <Cell4 id="cell4">{state.cell4}</Cell4>
+          <Cell5 id="cell5">{state.cell5}</Cell5>
+          <Cell6 id="cell6">{state.cell6}</Cell6>
+        </Row>
+        <Row>
+          <Cell7 id="cell7">{state.cell7}</Cell7>
+          <Cell8 id="cell8">{state.cell8}</Cell8>
+          <Cell9 id="cell9">{state.cell9}</Cell9>
+        </Row>
       </Row>
     </Container>
   );
