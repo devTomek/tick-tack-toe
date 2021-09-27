@@ -28,6 +28,9 @@ const Cell = styled(Col)`
   min-width: 200px;
   font-size: 8rem;
   text-align: center;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 // ----------------------------------
