@@ -1,8 +1,11 @@
-import React, { useEffect, useState, MouseEvent, useRef, useMemo } from "react";
+import React, { useEffect, useState, MouseEvent, useRef } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
+import { animatedGradient } from "../presentational/styleUtils";
+import Text from "../presentational/Text";
+import Win from "./Win";
 
-type Mark = "X" | "O" | "";
+export type Mark = "X" | "O" | "";
 
 interface State {
   cell1: Mark;
@@ -38,28 +41,6 @@ const ResetButton = styled(Button)`
   font-size: 2rem;
 `;
 
-const animatedGradient = css`
-  background: -webkit-linear-gradient(
-    rgba(255, 0, 251, 1) 0%,
-    rgba(162, 41, 225, 1) 51%,
-    rgba(71, 197, 255, 1) 100%
-  );
-  background-size: 400% 400%;
-  animation: gradient 3s ease-in-out infinite;
-
-  @keyframes gradient {
-    0% {
-      background-position: 0 50%;
-    }
-    50% {
-      background-position: 50% 100%;
-    }
-    100% {
-      background-position: 0 50%;
-    }
-  }
-`;
-
 const VerticalDivider = styled("div")`
   ${animatedGradient}
   width: 1px;
@@ -70,13 +51,6 @@ const HorizontalDivider = styled("div")`
   height: 20px;
   border-radius: 25px;
   ${animatedGradient}
-`;
-
-const Text = styled("p")`
-  ${animatedGradient}
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  min-height: 10px;
 `;
 
 function Game() {
@@ -93,80 +67,78 @@ function Game() {
   });
   const [state, setState] = useState<State>(initialState.current);
   const [mark, setMark] = useState<Mark>("");
-  const winCondition = useMemo(
-    () =>
-      /**
-       * XXX OOO
-       * ... ...
-       * ... ...
-       */
-      (state.cell1 === "X" && state.cell2 === "X" && state.cell3 === "X") ||
-      (state.cell1 === "O" && state.cell2 === "O" && state.cell3 === "O") ||
-      /**
-       * ... ...
-       * XXX OOO
-       * ... ...
-       */
-      (state.cell4 === "X" && state.cell5 === "X" && state.cell6 === "X") ||
-      (state.cell4 === "O" && state.cell5 === "O" && state.cell6 === "O") ||
-      /**
-       * ... ...
-       * ... ...
-       * XXX OOO
-       */
-      (state.cell7 === "X" && state.cell8 === "X" && state.cell9 === "X") ||
-      (state.cell7 === "O" && state.cell8 === "O" && state.cell9 === "O") ||
-      /**
-       * X.. O..
-       * X.. O..
-       * X.. O..
-       */
-      (state.cell1 === "X" && state.cell4 === "X" && state.cell7 === "X") ||
-      (state.cell1 === "O" && state.cell4 === "O" && state.cell7 === "O") ||
-      /**
-       * .X. .O.
-       * .X. .O.
-       * .X. .O.
-       */
-      (state.cell2 === "X" && state.cell5 === "X" && state.cell8 === "X") ||
-      (state.cell2 === "O" && state.cell5 === "O" && state.cell8 === "O") ||
-      /**
-       * ..X ..O
-       * ..X ..O
-       * ..X ..O
-       */
-      (state.cell3 === "X" && state.cell6 === "X" && state.cell9 === "X") ||
-      (state.cell3 === "O" && state.cell6 === "O" && state.cell9 === "O") ||
-      /**
-       * X.. O..
-       * .X. .O.
-       * ..X ..O
-       */
-      (state.cell1 === "X" && state.cell5 === "X" && state.cell9 === "X") ||
-      (state.cell1 === "O" && state.cell5 === "O" && state.cell9 === "O") ||
-      /**
-       * ..X ..O
-       * .X. .O.
-       * X.. O..
-       */
-      (state.cell3 === "X" && state.cell5 === "X" && state.cell7 === "X") ||
-      (state.cell3 === "O" && state.cell5 === "O" && state.cell7 === "O"),
-    [state]
-  );
+  const [winner, setWinner] = useState<Mark>("");
+  const winCondition =
+    /**
+     * XXX OOO
+     * ... ...
+     * ... ...
+     */
+    (state.cell1 === "X" && state.cell2 === "X" && state.cell3 === "X") ||
+    (state.cell1 === "O" && state.cell2 === "O" && state.cell3 === "O") ||
+    /**
+     * ... ...
+     * XXX OOO
+     * ... ...
+     */
+    (state.cell4 === "X" && state.cell5 === "X" && state.cell6 === "X") ||
+    (state.cell4 === "O" && state.cell5 === "O" && state.cell6 === "O") ||
+    /**
+     * ... ...
+     * ... ...
+     * XXX OOO
+     */
+    (state.cell7 === "X" && state.cell8 === "X" && state.cell9 === "X") ||
+    (state.cell7 === "O" && state.cell8 === "O" && state.cell9 === "O") ||
+    /**
+     * X.. O..
+     * X.. O..
+     * X.. O..
+     */
+    (state.cell1 === "X" && state.cell4 === "X" && state.cell7 === "X") ||
+    (state.cell1 === "O" && state.cell4 === "O" && state.cell7 === "O") ||
+    /**
+     * .X. .O.
+     * .X. .O.
+     * .X. .O.
+     */
+    (state.cell2 === "X" && state.cell5 === "X" && state.cell8 === "X") ||
+    (state.cell2 === "O" && state.cell5 === "O" && state.cell8 === "O") ||
+    /**
+     * ..X ..O
+     * ..X ..O
+     * ..X ..O
+     */
+    (state.cell3 === "X" && state.cell6 === "X" && state.cell9 === "X") ||
+    (state.cell3 === "O" && state.cell6 === "O" && state.cell9 === "O") ||
+    /**
+     * X.. O..
+     * .X. .O.
+     * ..X ..O
+     */
+    (state.cell1 === "X" && state.cell5 === "X" && state.cell9 === "X") ||
+    (state.cell1 === "O" && state.cell5 === "O" && state.cell9 === "O") ||
+    /**
+     * ..X ..O
+     * .X. .O.
+     * X.. O..
+     */
+    (state.cell3 === "X" && state.cell5 === "X" && state.cell7 === "X") ||
+    (state.cell3 === "O" && state.cell5 === "O" && state.cell7 === "O");
 
   const toggleMark = (mark: Mark) => (mark === "X" ? "O" : "X");
 
   const reset = () => {
     setState(initialState.current);
     setMark("");
+    setWinner("");
   };
 
   useEffect(() => {
     if (winCondition) {
       // get previous mark because winCondition is checked after toggleMark
       const winner = toggleMark(mark);
-      alert(winner);
-      reset();
+      setWinner(winner);
     }
   }, [mark]);
 
@@ -187,7 +159,7 @@ function Game() {
   };
 
   return (
-    <Container className="h-100 d-flex flex-column justify-content-center">
+    <Container className="h-100 d-flex flex-column justify-content-center position-relative">
       <MarkPicker className="text-center p-4">
         {mark ? <Text>{mark}'s turn</Text> : <Text>Choose Mark</Text>}
         {mark ? (
@@ -264,6 +236,7 @@ function Game() {
           </Cell>
         </Col>
       </Row>
+      <Win winner={winner} onClick={reset} />
     </Container>
   );
 }
