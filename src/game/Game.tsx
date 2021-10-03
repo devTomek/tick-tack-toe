@@ -1,13 +1,6 @@
-import React, {
-  useEffect,
-  useState,
-  MouseEvent,
-  useRef,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { useEffect, useState, MouseEvent, useRef, useMemo } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 type Mark = "X" | "O" | "";
 
@@ -23,7 +16,7 @@ interface State {
   cell9: Mark;
 }
 
-const Cell = styled(Col)`
+const Cell = styled("div")`
   min-height: 200px;
   min-width: 200px;
   font-size: 8rem;
@@ -33,55 +26,46 @@ const Cell = styled(Col)`
   }
 `;
 
-// ----------------------------------
-
-const Cell1 = styled(Cell)`
-  border-bottom: 1px solid #000000;
-`;
-
-const Cell2 = styled(Cell)`
-  border-right: 1px solid #000000;
-  border-bottom: 1px solid #000000;
-  border-left: 1px solid #000000;
-`;
-
-const Cell3 = styled(Cell)`
-  border-bottom: 1px solid #000000;
-`;
-
-// ----------------------------------
-
-const Cell4 = styled(Cell)``;
-
-const Cell5 = styled(Cell)`
-  border-left: 1px solid #000000;
-  border-right: 1px solid #000000;
-`;
-
-const Cell6 = styled(Cell)``;
-
-// ----------------------------------
-
-const Cell7 = styled(Cell)`
-  border-top: 1px solid #000000;
-`;
-
-const Cell8 = styled(Cell)`
-  border-left: 1px solid #000000;
-  border-top: 1px solid #000000;
-  border-right: 1px solid #000000;
-`;
-
-const Cell9 = styled(Cell)`
-  border-top: 1px solid #000000;
-`;
-
 const MarkPicker = styled(Row)`
   font-size: 4rem;
 `;
 
 const GameButton = styled(Button)`
   font-size: inherit;
+`;
+
+const animatedGradient = css`
+  background: linear-gradient(
+    rgba(255, 0, 251, 1) 0%,
+    rgba(162, 41, 225, 1) 51%,
+    rgba(71, 197, 255, 1) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradient 3s ease-in-out infinite;
+
+  @keyframes gradient {
+    0% {
+      background-position: 0 50%;
+    }
+    50% {
+      background-position: 50% 100%;
+    }
+    100% {
+      background-position: 0 50%;
+    }
+  }
+`;
+
+const VerticalDivider = styled("div")`
+  width: 1px;
+  border-radius: 25px;
+  ${animatedGradient}
+`;
+
+const HorizontalDivider = styled("div")`
+  height: 20px;
+  border-radius: 25px;
+  ${animatedGradient}
 `;
 
 function Game() {
@@ -236,21 +220,29 @@ function Game() {
         )}
       </MarkPicker>
       <Row onClick={handleBoardClick}>
-        <Row>
-          <Cell1 id="cell1">{state.cell1}</Cell1>
-          <Cell2 id="cell2">{state.cell2}</Cell2>
-          <Cell3 id="cell3">{state.cell3}</Cell3>
-        </Row>
-        <Row>
-          <Cell4 id="cell4">{state.cell4}</Cell4>
-          <Cell5 id="cell5">{state.cell5}</Cell5>
-          <Cell6 id="cell6">{state.cell6}</Cell6>
-        </Row>
-        <Row>
-          <Cell7 id="cell7">{state.cell7}</Cell7>
-          <Cell8 id="cell8">{state.cell8}</Cell8>
-          <Cell9 id="cell9">{state.cell9}</Cell9>
-        </Row>
+        <Col>
+          <Cell id="cell1">{state.cell1}</Cell>
+          <HorizontalDivider />
+          <Cell id="cell2">{state.cell2}</Cell>
+          <HorizontalDivider />
+          <Cell id="cell3">{state.cell3}</Cell>
+        </Col>
+        <VerticalDivider />
+        <Col>
+          <Cell id="cell4">{state.cell4}</Cell>
+          <HorizontalDivider />
+          <Cell id="cell5">{state.cell5}</Cell>
+          <HorizontalDivider />
+          <Cell id="cell6">{state.cell6}</Cell>
+        </Col>
+        <VerticalDivider />
+        <Col>
+          <Cell id="cell7">{state.cell7}</Cell>
+          <HorizontalDivider />
+          <Cell id="cell8">{state.cell8}</Cell>
+          <HorizontalDivider />
+          <Cell id="cell9">{state.cell9}</Cell>
+        </Col>
       </Row>
     </Container>
   );
