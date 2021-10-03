@@ -34,8 +34,12 @@ const GameButton = styled(Button)`
   font-size: inherit;
 `;
 
+const ResetButton = styled(Button)`
+  font-size: 2rem;
+`;
+
 const animatedGradient = css`
-  background: linear-gradient(
+  background: -webkit-linear-gradient(
     rgba(255, 0, 251, 1) 0%,
     rgba(162, 41, 225, 1) 51%,
     rgba(71, 197, 255, 1) 100%
@@ -57,15 +61,22 @@ const animatedGradient = css`
 `;
 
 const VerticalDivider = styled("div")`
+  ${animatedGradient}
   width: 1px;
   border-radius: 25px;
-  ${animatedGradient}
 `;
 
 const HorizontalDivider = styled("div")`
   height: 20px;
   border-radius: 25px;
   ${animatedGradient}
+`;
+
+const Text = styled("p")`
+  ${animatedGradient}
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  min-height: 10px;
 `;
 
 function Game() {
@@ -178,21 +189,12 @@ function Game() {
   return (
     <Container className="h-100 d-flex flex-column justify-content-center">
       <MarkPicker className="text-center p-4">
-        {mark ? (
-          <p className="fixed-top p-4">{mark}'s turn</p>
-        ) : (
-          <p>Choose Mark</p>
-        )}
+        {mark ? <Text>{mark}'s turn</Text> : <Text>Choose Mark</Text>}
         {mark ? (
           <Row className="d-flex justify-content-center m-4">
-            <GameButton
-              className="w-50"
-              variant="light"
-              size="lg"
-              onClick={reset}
-            >
-              Reset
-            </GameButton>
+            <ResetButton className="w-50" variant="light" onClick={reset}>
+              <Text>Reset</Text>
+            </ResetButton>
           </Row>
         ) : (
           <Row>
@@ -203,7 +205,7 @@ function Game() {
                 className="w-100"
                 onClick={() => setMark("O")}
               >
-                O
+                <Text>O</Text>
               </GameButton>
             </Col>
             <Col>
@@ -213,7 +215,7 @@ function Game() {
                 className="w-100"
                 onClick={() => setMark("X")}
               >
-                X
+                <Text>X</Text>
               </GameButton>
             </Col>
           </Row>
@@ -221,27 +223,45 @@ function Game() {
       </MarkPicker>
       <Row onClick={handleBoardClick}>
         <Col>
-          <Cell id="cell1">{state.cell1}</Cell>
+          <Cell id="cell1">
+            <Text>{state.cell1}</Text>
+          </Cell>
           <HorizontalDivider />
-          <Cell id="cell2">{state.cell2}</Cell>
+          <Cell id="cell2">
+            <Text>{state.cell2}</Text>
+          </Cell>
           <HorizontalDivider />
-          <Cell id="cell3">{state.cell3}</Cell>
+          <Cell id="cell3">
+            <Text>{state.cell3}</Text>
+          </Cell>
         </Col>
         <VerticalDivider />
         <Col>
-          <Cell id="cell4">{state.cell4}</Cell>
+          <Cell id="cell4">
+            <Text>{state.cell4}</Text>
+          </Cell>
           <HorizontalDivider />
-          <Cell id="cell5">{state.cell5}</Cell>
+          <Cell id="cell5">
+            <Text>{state.cell5}</Text>
+          </Cell>
           <HorizontalDivider />
-          <Cell id="cell6">{state.cell6}</Cell>
+          <Cell id="cell6">
+            <Text>{state.cell6}</Text>
+          </Cell>
         </Col>
         <VerticalDivider />
         <Col>
-          <Cell id="cell7">{state.cell7}</Cell>
+          <Cell id="cell7">
+            <Text>{state.cell7}</Text>
+          </Cell>
           <HorizontalDivider />
-          <Cell id="cell8">{state.cell8}</Cell>
+          <Cell id="cell8">
+            <Text>{state.cell8}</Text>
+          </Cell>
           <HorizontalDivider />
-          <Cell id="cell9">{state.cell9}</Cell>
+          <Cell id="cell9">
+            <Text>{state.cell9}</Text>
+          </Cell>
         </Col>
       </Row>
     </Container>
